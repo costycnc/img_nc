@@ -1,13 +1,28 @@
 <html>
+<head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-11597845-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-11597845-3');
+</script>
+<title>image to gcode: convert your images to gcode</title>
+<meta charset="UTF-8">
+<meta name="description" content="images to gcode">
+<meta name="keywords" content="gcode,costycnc,cnc,vector,transform">
+<meta name="author" content="Costycnc">
+</head>
 <body>
 <a title="site stats" href="http://statcounter.com/"
 target="_blank"><img
 src="http://c.statcounter.com/11329943/0/4453ad53/0/" alt="site
-stats" style="border:none;"></a>If you want use this page offline download from <a href="http://costycnc.it/img_nc/img_nc.zip">HERE</a> and open index.html<br><br>
+stats" style="border:none;"></a>Image to gcode - easy and fast (for costycnc low cost foam cutter machine)<br>If you want use this page offline download from <a href="http://costycnc.it/img_nc/img_nc.zip">HERE</a> and open index.html<br>And <a href="img_nc_x_y.zip">HERE</a> with x and y<br><br>
 <div>
-<input type='file'  accept='.bmp,.jpg,.gif,.png' onchange='openFile(event)'><br>
-scalex=<input id="scalex" value=".1" >
-scaley=<input id="scaley" value=".1" >
+<input type='file'  accept='.bmp,.jpg,.gif,.png' onchange='openFile(event)'>
+scale=<input id="scale" value=".1" ><br>dpi=<input id="scaledpi" value="96" >
 <button onclick="saveTextAsFile()" >Save gcode</button></b> <br></div>	
 
 
@@ -37,6 +52,10 @@ var area_dimension = document.getElementById('area_dimension');
 var div1;// = document.getElementById('mytext1');
 
 var text1;
+var scaledpi = document.getElementById('scaledpi').value;
+var rap;
+
+
 
 
 function gcode_verify(){
@@ -49,6 +68,7 @@ var x1=0;
 var y1=0;
 var xfinal=0;
 var yfinal=0;
+
 
 
 
@@ -74,8 +94,8 @@ if(n > datafile.length)break;
 if(n > datafile.length)break;	
 }	
 	
-	xfinal=xfinal/3.78;
-	yfinal=yfinal/3.78;
+	xfinal=(xfinal/3.78);
+	yfinal=(yfinal/3.78);
 	xfinal=Math.round(xfinal * Math.pow(10, 2)) / Math.pow(10, 2)  ;
 	yfinal=Math.round(yfinal * Math.pow(10, 2)) / Math.pow(10, 2)  ;
 
@@ -154,8 +174,8 @@ var res = parseFloat(text1.slice(n, n+10));
 //alert(res);
 yincep=res;
 
-div = div + 'G01 X'+Math.round(xincep * Math.pow(10, 2)) / Math.pow(10, 2)  +'\n';
-div = div + 'G01 X'+Math.round(xincep * Math.pow(10, 2)) / Math.pow(10, 2)  +' Y'+Math.round(yincep * Math.pow(10, 2)) / Math.pow(10, 2) +'\n';
+div = div + 'G01 X'+Math.round(xincep*rap * Math.pow(10, 2)) / Math.pow(10, 2)  +'\n';
+div = div + 'G01 X'+Math.round(xincep*rap * Math.pow(10, 2)) / Math.pow(10, 2)  +' Y'+Math.round(yincep *rap* Math.pow(10, 2)) / Math.pow(10, 2) +'\n';
 //alert(div.innerHTML);
 while (1) {
 
@@ -220,11 +240,12 @@ g=1/(a+b+c);
 a=a+b+c;
 //alert('dist ='+a+' pezzi='+g);
 //******************************
+
 for (i = 0; i < 1; i += g) {
 	
 	var x=bezierx(i,xincep,p1x,p2x,xsfar);
 var y=beziery(i,yincep,p1y,p2y,ysfar);
-div = div + 'G01 X'+Math.round(x * Math.pow(10, 2)) / Math.pow(10, 2)  +' Y'+Math.round(y * Math.pow(10, 2)) / Math.pow(10, 2) +'\n';
+div = div + 'G01 X'+Math.round(x *rap* Math.pow(10, 2)) / Math.pow(10, 2)  +' Y'+Math.round(y *rap* Math.pow(10, 2)) / Math.pow(10, 2) +'\n';
 }
 
 
@@ -250,7 +271,7 @@ var res = parseFloat(text1.slice(n+1, n+10));
 //res=res*scale;
 //console.log(res);
 p1y=res;
-div = div + 'G01 X'+Math.round(p1x * Math.pow(10, 2)) / Math.pow(10, 2)  +' Y'+Math.round(p1y * Math.pow(10, 2)) / Math.pow(10, 2) +'\n';
+div = div + 'G01 X'+Math.round(p1x *rap* Math.pow(10, 2)) / Math.pow(10, 2)  +' Y'+Math.round(p1y *rap* Math.pow(10, 2)) / Math.pow(10, 2) +'\n';
 var n = text1.indexOf(' ',n+3);
 var res = parseFloat(text1.slice(n+1, n+10));
 //res=res*scale;
@@ -263,7 +284,7 @@ var res = parseFloat(text1.slice(n+1, n+10));
 //console.log(res);
 
 p2y=res;
-div = div + 'G01 X'+Math.round(p2x * Math.pow(10, 2)) / Math.pow(10, 2)  +' Y'+Math.round(p2y * Math.pow(10, 2)) / Math.pow(10, 2) +'\n';
+div = div + 'G01 X'+Math.round(p2x *rap* Math.pow(10, 2)) / Math.pow(10, 2)  +' Y'+Math.round(p2y *rap* Math.pow(10, 2)) / Math.pow(10, 2) +'\n';
 
 xincep=p2x;
 yincep=p2y;
@@ -298,6 +319,8 @@ function beziery(t, p0, p1, p2, p3) {
 	
 	
   var openFile = function(event) {
+var scaledpi = document.getElementById('scaledpi').value;
+rap=96/scaledpi;
     var input = event.target;
 
     var reader = new FileReader();
@@ -313,10 +336,9 @@ function beziery(t, p0, p1, p2, p3) {
 	Potrace.loadImageFromFile(input.files[0]);
 	Potrace.process(function(){
     //displayImg();
-	var scalex = document.getElementById('scalex').value;
-var scaley = document.getElementById('scaley').value;
+	var scale = document.getElementById('scale').value;
     //displaySVG(scale);
-	text1=Potrace.getSVG(scalex,scaley);
+	text1=Potrace.getSVG(scale);
 	myFunction();
 	gcode_verify();
 
