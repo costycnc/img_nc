@@ -1,28 +1,13 @@
 <html>
-<head>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-11597845-3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-11597845-3');
-</script>
-<title>image to gcode: convert your images to gcode</title>
-<meta charset="UTF-8">
-<meta name="description" content="images to gcode">
-<meta name="keywords" content="gcode,costycnc,cnc,vector,transform">
-<meta name="author" content="Costycnc">
-</head>
 <body>
 <a title="site stats" href="http://statcounter.com/"
 target="_blank"><img
 src="http://c.statcounter.com/11329943/0/4453ad53/0/" alt="site
-stats" style="border:none;"></a>Image to gcode - easy and fast (for costycnc low cost foam cutter machine)<br>If you want use this page offline download from <a href="http://costycnc.it/img_nc/img_nc.zip">HERE</a> and open index.html<br>And <a href="img_nc_x_y.zip">HERE</a> with x and y<br><br>
+stats" style="border:none;"></a>If you want use this page offline download from <a href="http://costycnc.it/img_nc/img_nc.zip">HERE</a> and open index.html<br><br>
 <div>
-<input type='file'  accept='.bmp,.jpg,.gif,.png' onchange='openFile(event)'>
-scale=<input id="scale" value=".1" >
+<input type='file'  accept='.bmp,.jpg,.gif,.png' onchange='openFile(event)'><br>
+scalex=<input id="scalex" value=".1" >
+scaley=<input id="scaley" value=".1" >
 <button onclick="saveTextAsFile()" >Save gcode</button></b> <br></div>	
 
 
@@ -328,9 +313,10 @@ function beziery(t, p0, p1, p2, p3) {
 	Potrace.loadImageFromFile(input.files[0]);
 	Potrace.process(function(){
     //displayImg();
-	var scale = document.getElementById('scale').value;
+	var scalex = document.getElementById('scalex').value;
+var scaley = document.getElementById('scaley').value;
     //displaySVG(scale);
-	text1=Potrace.getSVG(scale);
+	text1=Potrace.getSVG(scalex,scaley);
 	myFunction();
 	gcode_verify();
 
